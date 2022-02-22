@@ -29,6 +29,7 @@
             "cleanup": [
             ],
             "post-install": [
+                "ln -sf lxvst $FLATPAK_DEST/vst",
                 "strip $FLATPAK_DEST/lv2/*.lv2/*.so",
                 "strip $FLATPAK_DEST/lxvst/*.so",
                 "install -Dm644 --target-directory=${FLATPAK_DEST}/share/metainfo org.freedesktop.LinuxAudio.Plugins.Helm.metainfo.xml",
