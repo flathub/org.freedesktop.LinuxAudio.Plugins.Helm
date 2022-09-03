@@ -1,9 +1,9 @@
 {
     "id": "org.freedesktop.LinuxAudio.Plugins.Helm",
-    "branch": "21.08",
+    "branch": "22.08",
     "runtime": "org.freedesktop.LinuxAudio.BaseExtension",
-    "runtime-version": "21.08",
-    "sdk": "org.freedesktop.Sdk//21.08",
+    "runtime-version": "stable",
+    "sdk": "org.freedesktop.Sdk//22.08",
     "build-extension": true,
     "appstream-compose": false,
     "build-options": {
@@ -26,12 +26,10 @@
                     "DESTDIR": "${FLATPAK_DEST}"
                 }
             },
-            "cleanup": [
-            ],
             "post-install": [
-                "ln -sf lxvst $FLATPAK_DEST/vst",
                 "strip $FLATPAK_DEST/lv2/*.lv2/*.so",
-                "strip $FLATPAK_DEST/lxvst/*.so",
+                "mv $FLATPAK_DEST/lxvst $FLATPAK_DEST/vst",
+                "strip $FLATPAK_DEST/vst/*.so",
                 "install -Dm644 --target-directory=${FLATPAK_DEST}/share/metainfo org.freedesktop.LinuxAudio.Plugins.Helm.metainfo.xml",
                 "appstream-compose --basename=org.freedesktop.LinuxAudio.Plugins.Helm --prefix=${FLATPAK_DEST} --origin=flatpak org.freedesktop.LinuxAudio.Plugins.Helm",
                 "install -Dm644 -t $FLATPAK_DEST/share/licenses/helm/ COPYING"
