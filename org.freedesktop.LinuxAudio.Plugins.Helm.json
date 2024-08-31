@@ -13,10 +13,8 @@
             "name": "helm",
             "buildsystem": "simple",
             "build-commands": [
-                "make -j $FLATPAK_BUILDER_N_JOBS lv2",
-                "make -j $FLATPAK_BUILDER_N_JOBS vst",
-                "make install_lv2",
-                "make install_vst"
+                "make -j $FLATPAK_BUILDER_N_JOBS lv2 vst",
+                "make install_lv2 install_vst"
             ],
             "build-options": {
                 "env": {
@@ -40,8 +38,8 @@
                 {
                     "type": "patch",
                     "paths": [
-                        "helm-fixes.patch",
-                        "helm-path-fixes.patch"
+                        "patches/helm-fixes.patch",
+                        "patches/helm-path-fixes.patch"
                     ]
                 },
                 {
