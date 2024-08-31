@@ -5,7 +5,6 @@
     "runtime-version": "stable",
     "sdk": "org.freedesktop.Sdk//23.08",
     "build-extension": true,
-    "appstream-compose": false,
     "build-options": {
         "prefix": "/app/extensions/Plugins/Helm"
     },
@@ -14,24 +13,22 @@
             "name": "helm",
             "buildsystem": "simple",
             "build-commands": [
-                "make lv2",
-                "make vst",
+                "make -j $FLATPAK_BUILDER_N_JOBS lv2",
+                "make -j $FLATPAK_BUILDER_N_JOBS vst",
                 "make install_lv2",
                 "make install_vst"
             ],
             "build-options": {
                 "env": {
-                    "PREFIX": "${FLATPAK_DEST}",
-                    "LIBDIR": ".",
-                    "DESTDIR": "${FLATPAK_DEST}"
+                    "PREFIX": "${FLATPAK_DEST}"
                 }
             },
             "post-install": [
+                "ln -sf ./lib/lv2 $FLATPAK_DEST/lv2",
+                "ln -sf ./lib/vst $FLATPAK_DEST/vst",
                 "strip $FLATPAK_DEST/lv2/*.lv2/*.so",
-                "mv $FLATPAK_DEST/lxvst $FLATPAK_DEST/vst",
                 "strip $FLATPAK_DEST/vst/*.so",
                 "install -Dm644 --target-directory=${FLATPAK_DEST}/share/metainfo org.freedesktop.LinuxAudio.Plugins.Helm.metainfo.xml",
-                "appstream-compose --basename=org.freedesktop.LinuxAudio.Plugins.Helm --prefix=${FLATPAK_DEST} --origin=flatpak org.freedesktop.LinuxAudio.Plugins.Helm",
                 "install -Dm644 -t $FLATPAK_DEST/share/licenses/helm/ COPYING"
             ],
             "sources": [
@@ -42,7 +39,10 @@
                 },
                 {
                     "type": "patch",
-                    "path": "helm-fixes.patch"
+                    "paths": [
+                        "helm-fixes.patch",
+                        "helm-path-fixes.patch"
+                    ]
                 },
                 {
                     "type": "file",

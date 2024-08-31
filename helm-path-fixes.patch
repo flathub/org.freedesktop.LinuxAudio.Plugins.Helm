@@ -1,0 +1,58 @@
+diff --git a/Makefile b/Makefile
+index b652a8b..1c229c6 100644
+--- a/Makefile
++++ b/Makefile
+@@ -2,8 +2,12 @@ ifndef CONFIG
+ 	CONFIG=Release
+ endif
+ 
++ifndef PREFIX
++        PREFIX=/usr
++endif
++
+ ifndef LIBDIR
+-	LIBDIR=/usr/lib/
++	LIBDIR=$(PREFIX)/lib/
+ endif
+ 
+ DPKG := $(shell dpkg-buildflags --version 2> /dev/null)
+@@ -31,19 +35,19 @@ endif
+ 
+ 
+ PROGRAM = helm
+-BIN     = $(DESTDIR)/usr/bin
++BIN     = $(DESTDIR)/$(PREFIX)/bin
+ BINFILE = $(BIN)/$(PROGRAM)
+ LV2     = $(DESTDIR)/$(LIBDIR)/lv2/$(PROGRAM).lv2
+-VSTDIR  = $(DESTDIR)/$(LIBDIR)/lxvst
++VSTDIR  = $(DESTDIR)/$(LIBDIR)/vst
+ VST     = $(VSTDIR)/$(PROGRAM).so
+-SYSDATA = $(DESTDIR)/usr/share/$(PROGRAM)
++SYSDATA = $(DESTDIR)$(PREFIX)/share/$(PROGRAM)
+ IMAGES  = $(SYSDATA)/icons
+ PATCHES = $(SYSDATA)/patches
+-MAN     = $(DESTDIR)/usr/share/man/man1/
+-CHANGES = $(DESTDIR)/usr/share/doc/$(PROGRAM)/
+-DESKTOP = $(DESTDIR)/usr/share/applications/
++MAN     = $(DESTDIR)$(PREFIX)/share/man/man1/
++CHANGES = $(DESTDIR)$(PREFIX)/share/doc/$(PROGRAM)/
++DESKTOP = $(DESTDIR)$(PREFIX)/share/applications/
+ 
+-ICONS   = $(DESTDIR)/usr/share/icons/hicolor/
++ICONS   = $(DESTDIR)$(PREFIX)/share/icons/hicolor/
+ ICON16  = images/helm_icon_16_1x.png
+ ICON22  = images/helm_icon_22_1x.png
+ ICON24  = images/helm_icon_24_1x.png
+diff --git a/src/common/load_save.cpp b/src/common/load_save.cpp
+index 4a5ddae..af505b6 100644
+--- a/src/common/load_save.cpp
++++ b/src/common/load_save.cpp
+@@ -20,7 +20,7 @@
+ #include "midi_manager.h"
+ #include "synth_base.h"
+ 
+-#define LINUX_FACTORY_PATCH_DIRECTORY "/usr/share/helm/patches"
++#define LINUX_FACTORY_PATCH_DIRECTORY "/app/extensions/Plugins/Helm/share/helm/patches"
+ #define USER_BANK_NAME "User Patches"
+ #define LINUX_BANK_DIRECTORY "~/.helm/patches"
+ #define EXPORTED_BANK_EXTENSION "helmbank"
