@@ -1,9 +1,9 @@
 {
     "id": "org.freedesktop.LinuxAudio.Plugins.Helm",
-    "branch": "23.08",
+    "branch": "24.08",
     "runtime": "org.freedesktop.LinuxAudio.BaseExtension",
     "runtime-version": "stable",
-    "sdk": "org.freedesktop.Sdk//23.08",
+    "sdk": "org.freedesktop.Sdk//24.08",
     "build-extension": true,
     "build-options": {
         "prefix": "/app/extensions/Plugins/Helm"
@@ -19,7 +19,8 @@
             "build-options": {
                 "env": {
                     "PREFIX": "${FLATPAK_DEST}"
-                }
+                },
+                "cxxflags": "-fpermissive"
             },
             "post-install": [
                 "ln -sf ./lib/lv2 $FLATPAK_DEST/lv2",
